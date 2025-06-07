@@ -37,6 +37,7 @@ Initial .locres and style files must be extracted with Fmodel first. The fmodel 
 
 If the reference you want is a regular icon in Map (28-110), and you want to edit the RGB, you just need to fill the numbers, the faction, and the R, the G and the B.
 If they are "identical", you can regroup the numbers (space divider).
+(for those DO NOT FILL the file column)
 
 (Use the mapping in the google sheet for the numbers)
 
