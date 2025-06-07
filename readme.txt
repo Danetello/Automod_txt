@@ -23,5 +23,13 @@ Created mods will be named based on the version of foxhole, which have to be man
 Created mods will bear the name of their template/reference (.csv) file.
 One reference file = 1 mod
 
+------------------
+
+There is demo template for .locres and style files. The locsres one is quite simple (2 columns csv : "text_to_find", "replacement_text")
+But the one for style file is way more complex:
+- There is 2 part in it, regular RGB replacement from MapStyle is quite easy. But Base, HUD and the rest of Map will require you to do some research on WHERE is what you want to replace. 
+- You can find the number reference for each element on this google sheet: https://docs.google.com/spreadsheets/d/1E8W9mijbKwDHuM73D5bBYRcdp9prEsBpabbaMBvW0B8/edit?gid=0#gid=0 (RGB MapStyle is from 28 to 110 for example)
+- You can use both regular RGB color code (0-255) or UE4 color value, they'll get converted automatically.
+
 Initial .locres and style files must be extracted with Fmodel first. The fmodel output folder must be indicated in the resource.py file
 
