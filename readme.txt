@@ -33,3 +33,32 @@ But the one for style file is way more complex:
 
 Initial .locres and style files must be extracted with Fmodel first. The fmodel output folder must be indicated in the resource.py file
 
+=> GUIDE FOR THE Style template.
+
+If the reference you want is a regular icon in Map (28-110), and you want to edit the RGB, you just need to fill the numbers, the faction, and the R, the G and the B.
+If they are "identical", you can regroup the numbers (space divider).
+
+(Use the mapping in the google sheet for the numbers)
+
+If it's from another file, or not 28-110, you'll need more information:
+- You need to fill the File column with MapStyle, BaseStyle or HUDStyle (case sensitive)
+- You'll need to fill the number column the same way.
+- You can ignore faction and RGB.
+- Branches are how to "parse" the json/file, how to go deep in it : 2 0 1 means that when you'll go down from the top reference (your number), you'll "open" the third option, then the first one, then the 2 second option (We count from 0 in Python, so first = 0)
+- Targets are the name of all the elements you want to replace when you're at the end of your branch.
+- If 2 things are on the same numbers, but not at the same "depth", you'll need 2 different lines in the template.
+
+In both cases, Type and Naming are just for you so you don't get lost.
+
+-------------------
+
+How to use, in short :
+- Do the initial settings correctly
+- Identify the needs of your mod (which .locres, which style file etc)
+- Create the template in the corresponding folder (Style, CodeStrings or Content). It may take some time but you only need to do it once.
+- Run the the corresponding .bat
+- Get your mod, renamed as it should be, in the Template folder.
+
+(A mod created can use multiple Style files, but not multiple locres, nor both at the same time). You'll need to do some fusions after if you need them.
+
+
