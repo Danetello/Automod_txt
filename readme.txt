@@ -17,10 +17,11 @@ However Python 3.12 is required at least.
 
 ----------------
 
-This tool allow to use reference file to "automate" the process of updating styles file (named .uassets) and .locres file.
+This tool allows to use reference file(s) to "automate" the process of updating style files (named .uassets) and .locres files.
 
 Created mods will be named based on the version of foxhole, which have to be manually edited in the resource file.
 Created mods will bear the name of their template/reference (.csv) file.
+One reference file = 1 mod
 
 Initial .locres and style files must be extracted with Fmodel first. The fmodel output folder must be indicated in the resource.py file
 
