@@ -1,0 +1,8 @@
+To view Foxhole game folders and files you need Umodel.
+When you Umodel asks for decryption key you paste one of these keys below:
+A9494BC94F80B38EB89E16B70CA2A224									# Foxhole
+50D9A89C4B5B73E975B3D9A0CDD4D859
+When finished cooking in UE4, navigate to Documents/Unreal Projects/<your project folder>/Saved\Cooked\WindowsNoEditor/<your project folder>/Content copy and place your cooked files in War/Content folder
+to package assets you need python 2.7.15 installed, to do that you run the .bat file.
+
+Copy the created .pak file to your steam dir foxhole Paks folder(Foxhole\War\Content\Paks).

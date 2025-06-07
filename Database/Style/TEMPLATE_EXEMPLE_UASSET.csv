@@ -1,0 +1,7 @@
+File,Naming (not used),Number (list),Faction,R,G,B,Type,Branches,Target,Values
+MapStyle,Scorched,23,,,,,Color,0,"R, G, B","0.52099597454071, 0.346704006195068, 0.16202899813652"
+,RELIC,68,Colonial,211,175,147,,,,
+,Logi Stuff,79 80 81,Colonial,111,145,124,,,,
+,Logi Stuff,79 80 81,Warden,33,103,120,,,,
+BaseStyle,map colonial,45,,,,,Color,1 0,"R, G, B","55, 200, 113"
+BaseStyle,map warden,45,,,,,Color,2 0,"R, G, B","128, 229, 255"
