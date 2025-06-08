@@ -170,7 +170,7 @@ for modfile in os.listdir(style_folder):
 
     file_list = df_mod_other["File"].unique()
 
-    partial_location_dic = {"BaseStyle" :  location_dic["BaseStyle"]} if not RGB_bool else {} #if RGB is used, manually add BaseStyle in case not used later, so the file is created
+    partial_location_dic = {"MapStyle" :  location_dic["MapStyle"]} if not RGB_bool else {} #if RGB is used, manually add BaseStyle in case not used later, so the file is created
     partial_location_dic = {k: location_dic[k] for k in file_list if k in location_dic}
     
     for file in file_list: # start iteration between the style files jsons
