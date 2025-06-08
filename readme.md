@@ -30,7 +30,7 @@ You shouldn't need to change it, but in resource.py file there is the unreal ver
 
 Initial .locres and style files must be extracted with Fmodel first. The fmodel output folder must be indicated in the resource.py file
 
-# GUIDE FOR THE Style template.
+## GUIDE FOR THE Style template.
 
 If the reference you want is a regular icon in Map (28-110), and you want to edit the RGB, you just need to fill the numbers, the faction, and the R, the G and the B.
 If they are "identical", you can regroup the numbers (space divider).
