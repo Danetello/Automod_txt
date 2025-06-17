@@ -94,16 +94,16 @@ for modfile in os.listdir(style_folder):
     
     for col in cols_to_object:
         df_mod_data[col] = df_mod_data[col].astype("object")
-    
-    for col in df_mod.columns:
+
+    for col in df_mod_data.columns:
         if is_numeric_dtype(df_mod_data[col]):
             df_mod_data[col] = df_mod_data[col].fillna(0.0)
         elif is_object_dtype(df_mod_data[col]):
             df_mod_data[col] = df_mod_data[col].fillna("")
-    
+
     for col in cols_to_object:
-        df_mod_data[col] = df_mod[col].astype("object")
-    
+        df_mod_data[col] = df_mod_data[col].astype("object")
+
     cols_to_split = ["Number (list)", "Branches"]
     for col in cols_to_split:
         df_mod_data[col] = df_mod_data[col].apply(lambda x: [int(i) for i in str(x).split(" ") if i.isdigit()])
@@ -173,8 +173,11 @@ for modfile in os.listdir(style_folder):
 
     file_list = df_mod_other["File"].unique()
 
-    partial_location_dic = {"MapStyle" :  location_dic["MapStyle"]} if not RGB_bool else {} #if RGB is used, manually add BaseStyle in case not used later, so the file is created
+    partial_location_dic = {}
     partial_location_dic = {k: location_dic[k] for k in file_list if k in location_dic}
+    if not RGB_bool:
+        partial_location_dic["MapStyle"] = location_dic["MapStyle"] #if RGB is used, manually add BaseStyle in case not used later, so the file is created
+
     
     for file in file_list: # start iteration between the style files jsons
         json_path = location_dic[file][1]
@@ -197,6 +200,7 @@ for modfile in os.listdir(style_folder):
                 depth = df_style.loc[idx, "Branches"]
                 targets = df_style.loc[idx, "Target"]
                 values = df_style.loc[idx, "Values"]
+                target_type = df_style.loc[idx, "Type"]
                 
                 for i in range(len(depth)):
                     path.extend(["Value", int(depth[i])])  #build the path for json parsing and reach target
@@ -208,23 +212,31 @@ for modfile in os.listdir(style_folder):
                     result = result[key]
                 
                 print(result)
+                print(target_type)
     
-                for j in range(len(targets)):   
+                for j in range(len(targets)):
+                    new_value = values[j]
+
                     try:
                         values[j] = int(values[j])
                         
-                        if isinstance(result[targets[j]], float) and isinstance(values[j], int) and 0 <= values[j] <= 255: # convert the color data if needed
+                        if target_type == "RGB" and isinstance(values[j], int) and 0 <= values[j] <= 255: # convert the color data if needed
                             values[j] = float(values[j])
-                            
                             values[j] = ue4_fcolor2flinearcolor(values[j])
                             
-                        print("RGB convert ok")
+                            print("RGB convert ok")
+                        else:
+                            print("Not RGB")
                         
                     except (ValueError, TypeError, StopIteration):
                         print("skip convert")
                         pass
                     
+                    og_value = result[targets[j]]
+                    true_new = values[j]
+
                     result[targets[j]] = convert_like(result[targets[j]], values[j])
+                    print(f"{j} {og_value} -> {true_new} (og: {new_value})")
                 
                 print("------------------------------")
                 
