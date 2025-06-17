@@ -45,6 +45,7 @@ If it's from another file, or not 28-110, you'll need more information:
 * Branches are how to "parse" the json/file, how to go deep in it : 2 0 1 means that when you'll go down from the top reference (your number), you'll "open" the third option, then the first one, then the 2 second option (We count from 0 in Python, so first = 0)
 * Targets are the name of all the elements you want to replace when you're at the end of your branch.
 * If 2 things are on the same numbers, but not at the same "depth", you'll need 2 different lines in the template.
+* IF you're editing colors, add RGB in the type column
 
 In both cases, Type and Naming are just for you so you don't get lost.
 
