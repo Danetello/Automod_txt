@@ -93,20 +93,20 @@ for modfile in os.listdir(style_folder):
         "Branches", "Target", "Values"]
     
     for col in cols_to_object:
-        df_mod[col] = df_mod[col].astype("object")
+        df_mod_data[col] = df_mod_data[col].astype("object")
     
     for col in df_mod.columns:
-        if is_numeric_dtype(df_mod[col]):
-            df_mod[col] = df_mod[col].fillna(0.0)
-        elif is_object_dtype(df_mod[col]):
-            df_mod[col] = df_mod[col].fillna("")
+        if is_numeric_dtype(df_mod_data[col]):
+            df_mod_data[col] = df_mod_data[col].fillna(0.0)
+        elif is_object_dtype(df_mod_data[col]):
+            df_mod_data[col] = df_mod_data[col].fillna("")
     
     for col in cols_to_object:
-        df_mod[col] = df_mod[col].astype("object")
+        df_mod_data[col] = df_mod[col].astype("object")
     
     cols_to_split = ["Number (list)", "Branches"]
     for col in cols_to_split:
-        df_mod[col] = df_mod[col].apply(lambda x: [int(i) for i in str(x).split(" ") if i.isdigit()])
+        df_mod_data[col] = df_mod_data[col].apply(lambda x: [int(i) for i in str(x).split(" ") if i.isdigit()])
     
     df_mod_data["Values"] = df_mod_data["Values"].apply(lambda x: x.split(", "))
     df_mod_data["Target"] = df_mod_data["Target"].apply(lambda x: x.split(", "))
