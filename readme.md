@@ -28,7 +28,7 @@
   - In `./Database/resources.py`, the following needs to be edit.
     - Set the `ue_ver` variable in `line 4` to your version of UE4 if you use a different version than UE4.27.
     - Set the `tool_executable` variable in `line 30` to the absolute file path of your install directory for the UAssetGUI application. Note: This is only the folder path and you should not include the .exe in the path.
-  - You will need to export the style files, using [FModel](https://fmodel.app/), in both .uasset and .json format.
+  - You will need to export the style files, using [FModel](https://fmodel.app/), in .uasset format.
 
 - To edit .locres files, the following is required.
 
@@ -76,21 +76,23 @@ In the `TEMPLATE_EXAMPLE_UASSET.csv` file you will find 11 columns, as seen in t
 | File | Naming | Number | Faction | R | G | B | Type | Branches | Target | Values |
 |------|--------|--------|---------|---|---|---|------|----------|--------|--------|
 
-- `File` indicates the specific style file you want to edit.
+- `File` indicates the specific style file you want to edit. (3 possibilities: MapStyle, BaseStyle, HUDStyle - case sensitive)
 - `Naming` is where you can give a name that will describe the edit that will be made in this line. This value is not actually used in the program, but more for later reference.
 - `Number` is a bit complicated:
   - First, it indicates the line number of the value that you want to edit.
     - You will need to open the Style file yourself and count out each index position of hte value you want to later edit.
-    - Another option is to use this [Google Sheet](https://docs.google.com/spreadsheets/d/1E8W9mijbKwDHuM73D5bBYRcdp9prEsBpabbaMBvW0B8/edit?gid=0#gid=0) as reference as it already has the calculated index position of the contents of the `MapStyle` file.
-  - Second, you can group together duplicate edits to multiple index position by placing them in a space separated list in the same row, for this specific column.  
-- `Faction` is only used when making map  file. Specifying `Colonial` or `Warden` will indicate to the program which part of the specified value to edit. If the icon is faction agnostic, then this can be left open.
-- `R`, `G` and `B` are used to specify the color you want it to be changed to. This can be indicated in standard RGB code (0-255) or in linear RGB code (0.0-1.0) as the script will automatically convert between the two. This is only used for icon color edits of the `MapStyle` file.
-- `Type` is used to indicate the type of value you want to edit. This value is not actually used in the program and more for you to remember the purpose of this change.
-- `Branches` are used to further indicate the position of the value you want to edit. This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them.
-  - Branches indicate to the application how to "parse" the style file by indicating positions at incremental depths. So, for 2 0 1, it means that, from the position indicated by the number column, you will choose the 3rd option in it(Counted from 0). Then, it will go the the first option of that one. Then, it will go to the second option of that one.
+    - Another option is to use this [Google Sheet](https://docs.google.com/spreadsheets/d/1E8W9mijbKwDHuM73D5bBYRcdp9prEsBpabbaMBvW0B8/edit?gid=0#gid=0) as reference as it already has the calculated index position of the contents of all the style file.
+  - Second, you can group together duplicate edits to multiple index position by placing them in a space separated list in the same row, for this specific column. (Separator for multiple value must be " ")
+- `Faction` is only used when making map file for "REGULAR RGB" (see Google Sheet). Specifying `Colonial` or `Warden` will indicate to the program which part of the specified value to edit. If the icon is faction agnostic, then this can be left open.
+- `R`, `G` and `B` are used to specify the color you want it to be changed to. This can be indicated in standard RGB code (0-255) or in linear RGB code (0.0-1.0) as the script will automatically convert between the two. This is only used for icon color edits of the `MapStyle` file. Also used only for "REGULAR RGB".
+- `Type` is used to indicate the type of value you want to edit. Only one possible value is important, setting "RGB" if it's a color edit (and not a "REGULAR RGB" one of the MapStyle). Any other value will just be indicative.
+- `Branches` are used to further indicate the position of the value you want to edit. This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them. 
+  - Branches indicate to the application how to "parse" the style file by indicating positions at incremental depths. So, for 2 0 1, it means that, from the position indicated by the number column, you will choose the 3rd option in it(Counted from 0). Then, it will go the the first option of that one. Then, it will go to the second option of that one. (Separator must be " ")
   - If you need unique branch handling for each index number you indicate, then they will all need to be in their own rows and can not be grouped together for convenience.
-- `Target` indicated which of the three available colors to with an R, G, B. You only need to remove one of the letters to prevent it from being edited. This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them.
-- `Values` are used to indicate the RGB value as you specified in the `Target` column. This can be indicated in standard RGB code (0-255) or in linear RGB code (0.0-1.0) as the script will automatically convert between the two. This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them.
+- `Target` indicate the name of the value that needs to be edited, it can be "R, G, B" for a color, but "X" and "Y" for image size. You only need to remove one of the names to prevent it from being edited. (Separator must be ", ")
+This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them. (the "REGULAR RGB" ones) 
+- `Values` are used to indicate the new value as you specified in the `Target` column. It can be of any type depending of your target (Integer, Float or String); though RGB value can also see the input being made in standard RGB code (0-255), as if "RGB" is specified in type, value will be converted if needed (If you put "RGB" and Linear RGB value, it will also works). (Separator must be ", ")
+This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them. (the "REGULAR RGB" ones)
 
 ### Summarized Workflow
 
@@ -98,5 +100,5 @@ In the `TEMPLATE_EXAMPLE_UASSET.csv` file you will find 11 columns, as seen in t
 - Identify the needs of your mod, such as which .locres and style files you will use.
 - Create the template in the corresponding folder (Style, CodeStrings or Content) by copying and then editing the example .csv. It may take some time but you only need to do it once.
 - Run the the corresponding .bat to launch the tool. The tool will automatically make the mod for you as well.
-- Take your created mod in the `./Template` folder, or where you specified it in the `./Database/resources.py` file. Rename to what you want.
-- You can edit multiple style files, of different types, into one mod, but for .locres there is only one and thus having multiple variations will overwrite each other.
+- Take your created mod in the `./Template` folder, or where you specified it in the `./Database/resources.py` file. Rename to what you want. (Though it shouldn't be needed as it will follow the name of the template)
+- You can edit and have multiple style files, of different types, into one mod, but for .locres, each file is handled separately, one template per file, so one file per mod (You can merge the 2 mods after without issues).
