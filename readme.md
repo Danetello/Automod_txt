@@ -1,60 +1,102 @@
-# AUTOMOD
-## This tool require some setup : 
+# AUTOMOD_TXT
 
-* For .uassets:
-Get this .exe : [uassets](https://github.com/atenfyr/UAssetGUI/releases)  
-You shouldn't need to change it, but in resource.py file there is the unreal version used, which is important (I think) for the tool
+---
 
-* For .locres:
-1. Get this .exe : [UE4localizationsTool](https://github.com/amrshaheen61/UE4LocalizationsTool/releases/tag/v2.7)  
+- [AUTOMOD\_TXT](#automod_txt)
+  - [Tool Setup](#tool-setup)
+  - [Dependencies](#dependencies)
+    - [Required](#required)
+    - [Required (Depending on use case)](#required-depending-on-use-case)
+  - [How To Use](#how-to-use)
+    - [.Locres Use Case](#locres-use-case)
+    - [.Uasset Use Case](#uasset-use-case)
+      - [Understanding the Example File](#understanding-the-example-file)
+    - [Summarized Workflow](#summarized-workflow)
 
-2. The "template" folder for .pak that we use for modding. (Included in the repo but just in case)
+---
 
-3. Head to Database and edit resources.py in function, to point the patht to those tools, as well as other things.
-    I gave guidelines on what's expected at the end of the path.
+## Tool Setup
 
-    There is no package requirements, the tool creates and manage his own venv.
-    However Python 3.12 is required at least.
+- Before making changes for your specific use case, first edit the following variables in `./Database/resources.py`.
+  - Set `automodtxt_path` in `line 7` to the absolute file path of the current application directory.
+  - Set `Fmodel_output_folder` in `line 13` to the absolute file path of the export folder for [FModel](https://fmodel.app/) to the file level of `./Output/Export`.
+  - Set `template_folder` in `line 17` to the absolute file path of your [Template Packer](https://drive.google.com/file/d/1VBHwGTtEZyMP_vDioHa1eamu481YxyiD/view) folder. You can also point it to the absolute file path of `./Template`, as there also exists a full copy of the Template Packer there.
+  - Set `foxholeversion` in `line 3` to the current game version. This will be used in the auto naming of the generated mod alongside what type mod it was.
 
-### This tool allows to use reference file(s) to "automate" the process of updating style files (named .uassets) and .locres files.
+- To edit .uassets files, the following is required.
+  - Download the [UAssetGUI](https://github.com/atenfyr/UAssetGUI/releases) application.  
+  - In `./Database/resources.py`, the following needs to be edit.
+    - Set the `ue_ver` variable in `line 4` to your version of UE4 if you use a different version than UE4.27.
+    - Set the `tool_executable` variable in `line 30` to the absolute file path of your install directory for the UAssetGUI application. Note: This is only the folder path and you should not include the .exe in the path.
+  - You will need to export the style files, using [FModel](https://fmodel.app/), in both .uasset and .json format.
 
-* Created mods will be named based on the version of foxhole, which have to be manually edited in the resource file.
-* Created mods will bear the name of their template/reference (.csv) file.
-* One reference file = 1 mod
+- To edit .locres files, the following is required.
 
-### There is demo template for .locres and style files. The locsres one is quite simple (2 columns csv : "text_to_find", "replacement_text")
-* But the one for style file is way more complex:
-* There is 2 part in it, regular RGB replacement from MapStyle is quite easy. But Base, HUD and the rest of Map will require you to do some research on WHERE is what you want to replace. 
-1. You can find the number reference for each element on this google sheet: https://docs.google.com/spreadsheets/d/1E8W9mijbKwDHuM73D5bBYRcdp9prEsBpabbaMBvW0B8/edit?gid=0#gid=0 (RGB MapStyle is from 28 to 110 for example)
-2. You can use both regular RGB color code (0-255) or UE4 color value, they'll get converted automatically.
+  - Download the [UE4localizationsTool](https://github.com/amrshaheen61/UE4LocalizationsTool/releases/tag/v2.7) application.  
 
-Initial .locres and style files must be extracted with Fmodel first. The fmodel output folder must be indicated in the resource.py file
+  - In `./Database/resources.py`, the following needs to be edit.
+    - Set the `tool_path` variable in `line 34` to the absolute file path of the UE4localizationsTool install folder, to the `./Utilities-master` level. Make sure not to include the application .exe in this file path.
+  - You will need to export the .locres files using [FModel](https://fmodel.app/).
 
-## GUIDE FOR THE Style template.
+If you are unsure of how some file paths should look, the `./Database/resources.py` file contains some hints that might help.
 
-If the reference you want is a regular icon in Map (28-110), and you want to edit the RGB, you just need to fill the numbers, the faction, and the R, the G and the B.
-If they are "identical", you can regroup the numbers (space divider).
-(for those DO NOT FILL the file column)
+## Dependencies
 
-(Use the mapping in the google sheet for the numbers)
+### Required
 
-If it's from another file, or not 28-110, you'll need more information:
-* You need to fill the File column with MapStyle, BaseStyle or HUDStyle (case sensitive)
-* You'll need to fill the number column the same way.
-* You can ignore faction and RGB.
-* Branches are how to "parse" the json/file, how to go deep in it : 2 0 1 means that when you'll go down from the top reference (your number), you'll "open" the third option, then the first one, then the 2 second option (We count from 0 in Python, so first = 0)
-* Targets are the name of all the elements you want to replace when you're at the end of your branch.
-* If 2 things are on the same numbers, but not at the same "depth", you'll need 2 different lines in the template.
-* IF you're editing colors, add RGB in the type column
+    - Python 3.12
+    - FModel
+    - Template Packer (If you don't want to use the included one)
 
-In both cases, Type and Naming are just for you so you don't get lost.
+### Required (Depending on use case)
 
+    - UAssetGUI (.uassets)
+    - UE4localizationsTool (.locres)
 
-How to use, in short :
-* Do the initial settings correctly
-* Identify the needs of your mod (which .locres, which style file etc)
-* Create the template in the corresponding folder (Style, CodeStrings or Content). It may take some time but you only need to do it once.
-* Run the the corresponding .bat
-* Get your mod, renamed as it should be, in the Template folder.
+## How To Use
 
-(A mod created can use multiple Style files, but not multiple locres, nor both at the same time). You'll need to do some fusions after if you need them.
+### .Locres Use Case
+
+The .locres is simple to use and has two columns, as shown in the table below.
+
+| text_to_find | replacement_text |
+|--------------|------------------|
+| Bluefin      | Blåhaj           |
+
+### .Uasset Use Case
+
+The workflow for this use case is centred around the .`/Style` folder. Inside this folder you will initially find the `TEMPLATE_EXAMPLE_UASSET.csv` file. This contains some basic examples of how this tool is intended to be used. It's a good idea to keep a copy of this file, but you probably don't want to keep it in the folder for reasons that will quickly become apparent.
+
+This tool allows for multiple different variations of style mods to be generated consecutively. Each `.csv` file that's placed in the `./Style` folder will prompt the tool to create a separate mod based on its contents.  
+
+#### Understanding the Example File
+
+In the `TEMPLATE_EXAMPLE_UASSET.csv` file you will find 11 columns, as seen in the table below.
+
+| File | Naming | Number | Faction | R | G | B | Type | Branches | Target | Values |
+|------|--------|--------|---------|---|---|---|------|----------|--------|--------|
+
+- `File` indicates the specific style file you want to edit.
+- `Naming` is where you can give a name that will describe the edit that will be made in this line. This value is not actually used in the program, but more for later reference.
+- `Number` is a bit complicated:
+  - First, it indicates the line number of the value that you want to edit.
+    - You will need to open the Style file yourself and count out each index position of hte value you want to later edit.
+    - Another option is to use this [Google Sheet](https://docs.google.com/spreadsheets/d/1E8W9mijbKwDHuM73D5bBYRcdp9prEsBpabbaMBvW0B8/edit?gid=0#gid=0) as reference as it already has the calculated index position of the contents of the `MapStyle` file.
+  - Second, you can group together duplicate edits to multiple index position by placing them in a space separated list in the same row, for this specific column.  
+- `Faction` is only used when making map  file. Specifying `Colonial` or `Warden` will indicate to the program which part of the specified value to edit. If the icon is faction agnostic, then this can be left open.
+- `R`, `G` and `B` are used to specify the color you want it to be changed to. This can be indicated in standard RGB code (0-255) or in linear RGB code (0.0-1.0) as the script will automatically convert between the two. This is only used for icon color edits of the `MapStyle` file.
+- `Type` is used to indicate the type of value you want to edit. This value is not actually used in the program and more for you to remember the purpose of this change.
+- `Branches` are used to further indicate the position of the value you want to edit. This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them.
+  - Branches indicate to the application how to "parse" the style file by indicating positions at incremental depths. So, for 2 0 1, it means that, from the position indicated by the number column, you will choose the 3rd option in it(Counted from 0). Then, it will go the the first option of that one. Then, it will go to the second option of that one.
+  - If you need unique branch handling for each index number you indicate, then they will all need to be in their own rows and can not be grouped together for convenience.
+- `Target` indicated which of the three available colors to with an R, G, B. You only need to remove one of the letters to prevent it from being edited. This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them.
+- `Values` are used to indicate the RGB value as you specified in the `Target` column. This can be indicated in standard RGB code (0-255) or in linear RGB code (0.0-1.0) as the script will automatically convert between the two. This value is not relevant to the faction icon color edits of the `MapStyle` file as there are custom scripts to specifically handle them.
+
+### Summarized Workflow
+
+- Complete the initial tool setup.
+- Identify the needs of your mod, such as which .locres and style files you will use.
+- Create the template in the corresponding folder (Style, CodeStrings or Content) by copying and then editing the example .csv. It may take some time but you only need to do it once.
+- Run the the corresponding .bat to launch the tool. The tool will automatically make the mod for you as well.
+- Take your created mod in the `./Template` folder, or where you specified it in the `./Database/resources.py` file. Rename to what you want.
+- You can edit multiple style files, of different types, into one mod, but for .locres there is only one and thus having multiple variations will overwrite each other.
