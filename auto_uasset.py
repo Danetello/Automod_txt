@@ -154,7 +154,7 @@ for modfile in os.listdir(style_folder):
                     
                     data_target = data['Exports'][0]['Data'][0]['Value'][reference]['Value'][factions[faction]]["Value"][1]["Value"][0]["Value"][0]["Value"][color] 
     
-                    if isinstance(data_target, float) and 0 <= color_ref <= 255: # convert the color data if needed
+                    if isinstance(data_target, int) and 0 <= color_ref <= 255: # convert the color data if needed
                             color_ref = ue4_fcolor2flinearcolor(color_ref)
     
                     print(color_ref)
